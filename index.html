@@ -1,701 +1,390 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ С 8 марта! Фейерверк из сердечек ✨</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Поздравления учителям</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            background: linear-gradient(145deg, #fff9f9 0%, #ffe6f0 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 20px 10px;
-            position: relative;
-            overflow-x: hidden;
-        }
+  body {
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                url('photos/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
 
-        /* ===== ПАДАЮЩИЕ ЦВЕТЫ (фоновая анимация) ===== */
-        .flower-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
+  h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 2.3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  }
 
-        .flower {
-            position: absolute;
-            font-size: 1.8rem;
-            opacity: 0.7;
-            user-select: none;
-            animation: fall linear infinite;
-            filter: drop-shadow(0 5px 5px #ffa5c3);
-            z-index: 0;
-        }
+  .subtitle {
+    text-align: center;
+    color: #f0e6ff;
+    font-size: 1.05em;
+    margin-bottom: 40px;
+    font-style: italic;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-20vh) rotate(0deg);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(100vh) rotate(300deg);
-                opacity: 0.2;
-            }
-        }
+  .teachers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-        /* ===== ФЕЙЕРВЕРК ИЗ СЕРДЕЧЕК (холст) ===== */
-        #heart-fireworks-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100; /* ПОВЕРХ всего контента */
-        }
+  .teacher-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    animation: cardIn 0.5s ease backwards;
+  }
 
-        /* основной контент */
-        .container {
-            max-width: 900px;
-            width: 100%;
-            position: relative;
-            z-index: 50; /* выше фона, но ниже фейерверка (100) */
-        }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-        .holiday-header {
-            background: #ffffffcc;
-            backdrop-filter: blur(8px);
-            border-radius: 60px 60px 30px 30px;
-            padding: 30px 25px 25px 25px;
-            box-shadow: 0 15px 35px rgba(231, 120, 176, 0.2);
-            border: 2px solid #ffb6d9;
-            margin-bottom: 30px;
-            text-align: center;
-        }
+  .teacher-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.28);
+  }
 
-        .holiday-header h1 {
-            font-size: 2.8rem;
-            color: #c53f7e;
-            text-shadow: 2px 2px 0 #ffe2f0;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
+  .teacher-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px;
+    display: block;
+    border: 4px solid #764ba2;
+    background: #f3effa;
+  }
 
-        .holiday-header p {
-            font-size: 1.3rem;
-            color: #8f4f72;
-            background: #fff0f7;
-            display: inline-block;
-            padding: 12px 30px;
-            border-radius: 50px;
-            box-shadow: inset 0 2px 5px #ffc1da;
-            margin: 10px 0 5px;
-            line-height: 1.5;
-        }
+  .teacher-photo.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.3em;
+    color: #764ba2;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
 
-        .wishes {
-            background: #ffe7f0;
-            border-radius: 40px;
-            padding: 20px;
-            margin: 15px 0 5px;
-            border: 2px dashed #ff8cb0;
-            font-size: 1.2rem;
-            color: #5e2e45;
-        }
+  .teacher-name {
+    font-size: 1.02em;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
 
-        .wishes span {
-            display: inline-block;
-            font-size: 1.8rem;
-            filter: drop-shadow(0 3px 3px #fba9c4);
-        }
+  .teacher-subject {
+    font-size: 0.88em;
+    color: #888;
+    font-style: italic;
+    line-height: 1.3;
+  }
 
-        .quiz-section {
-            background: #ffffffdd;
-            backdrop-filter: blur(5px);
-            border-radius: 50px;
-            padding: 25px;
-            box-shadow: 0 10px 25px #ffc1d0;
-            margin-bottom: 30px;
-        }
+  /* ===== Модальное окно — фон остаётся светлым ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeIn 0.3s;
+  }
 
-        .quiz-title {
-            font-size: 2rem;
-            color: #b3416b;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+  .modal-overlay.active { display: flex; }
 
-        .progress {
-            background: #ffd9e8;
-            height: 18px;
-            border-radius: 30px;
-            margin: 20px 0;
-            width: 100%;
-            overflow: hidden;
-        }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #f78fb4, #fb6f9e);
-            border-radius: 30px;
-            transition: width 0.3s ease;
-        }
+  .modal {
+    background: linear-gradient(135deg, #fff 0%, #f5f0ff 100%);
+    border-radius: 20px;
+    padding: 40px 35px 35px;
+    max-width: 560px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: slideUp 0.4s;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 
-        .question-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #32202a;
-            margin-bottom: 25px;
-            padding: 5px 15px;
-            background: #fef2f7;
-            border-radius: 40px;
-            border: 1px solid #ffb8d2;
-        }
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 
-        .answers-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s, transform 0.2s;
+  }
 
-        .answer-btn {
-            background: #ffffff;
-            border: 2px solid #ffbfd7;
-            border-radius: 60px;
-            padding: 16px 25px;
-            font-size: 1.25rem;
-            text-align: left;
-            color: #4f2b3a;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: pointer;
-            box-shadow: 0 4px 8px #ffe2f0;
-        }
+  .modal-close:hover { color: #764ba2; transform: rotate(90deg); }
 
-        .answer-btn:hover:not(:disabled) {
-            background: #ffe2f0;
-            border-color: #ff88b2;
-            transform: scale(1.02);
-            box-shadow: 0 8px 15px #ffc1da;
-        }
+  .modal-photo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 18px;
+    border: 4px solid #764ba2;
+  }
 
-        .answer-btn.selected-correct {
-            background: #d4ffd4;
-            border-color: #4caf50;
-            color: #1d471d;
-        }
+  .modal-photo.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: #764ba2;
+    font-weight: bold;
+    background: #f3effa;
+  }
 
-        .answer-btn.selected-wrong {
-            background: #ffe0e0;
-            border-color: #f44336;
-            color: #a0002a;
-            text-decoration: line-through wavy #ff7474;
-        }
+  .modal-name {
+    text-align: center;
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
 
-        .answer-btn:disabled {
-            cursor: default;
-            opacity: 0.8;
-        }
+  .modal-subject {
+    text-align: center;
+    color: #764ba2;
+    font-style: italic;
+    margin-bottom: 22px;
+    font-size: 0.95em;
+  }
 
-        .quiz-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+  .modal-text {
+    font-size: 1.05em;
+    line-height: 1.7;
+    color: #444;
+    text-align: center;
+  }
 
-        .counter-info {
-            font-size: 1.4rem;
-            background: #ffecf2;
-            padding: 8px 25px;
-            border-radius: 40px;
-            color: #b84b73;
-        }
-
-        .next-btn {
-            background: #ff98bb;
-            border: none;
-            border-radius: 50px;
-            padding: 14px 40px;
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 5px 0 #b34d72;
-            cursor: pointer;
-            transition: 0.1s linear;
-            border: 2px solid #ffcddc;
-        }
-
-        .next-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #b34d72;
-        }
-
-        .next-btn:disabled {
-            opacity: 0.4;
-            transform: none;
-            box-shadow: 0 5px 0 #b34d72;
-            cursor: not-allowed;
-        }
-
-        .result-message {
-            font-size: 1.8rem;
-            color: #c94178;
-            font-weight: bold;
-            margin-top: 15px;
-            padding: 15px;
-            background: #fff0f7;
-            border-radius: 50px;
-            border: 2px solid #ff9dc0;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .clicker-section {
-            background: #ffe4f0e0;
-            border-radius: 90px 90px 40px 40px;
-            padding: 25px 25px 30px;
-            border: 3px solid white;
-            box-shadow: 0 20px 30px #ffbfd0;
-            text-align: center;
-            margin-top: 30px;
-            backdrop-filter: blur(4px);
-        }
-
-        .clicker-title {
-            font-size: 1.9rem;
-            color: #c63f7b;
-            margin-bottom: 15px;
-        }
-
-        .heart-btn {
-            background: none;
-            border: none;
-            font-size: 5rem;
-            cursor: pointer;
-            transition: 0.15s;
-            filter: drop-shadow(0 10px 10px #ff90b0);
-            line-height: 1;
-        }
-
-        .heart-btn:active {
-            transform: scale(0.8);
-            filter: drop-shadow(0 5px 5px #ff4d7a);
-        }
-
-        .click-counter {
-            font-size: 2.2rem;
-            background: #ffffffb3;
-            border-radius: 60px;
-            padding: 8px 30px;
-            display: inline-block;
-            margin: 15px 0 15px 0;
-            color: #ad3f68;
-            border: 2px solid #ffa7c4;
-        }
-
-        .surprise-box {
-            min-height: 80px;
-            background: #ffddea;
-            border-radius: 70px;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 18px;
-            font-size: 2rem;
-            border: 2px solid #ffb7cf;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-            color: #b84b73;
-            font-style: italic;
-        }
-
-        .reset-surprise {
-            margin-top: 5px;
-            background: #fbc9da;
-            border: none;
-            border-radius: 40px;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            color: #5d2e44;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid white;
-            transition: 0.2s;
-            display: inline-block;
-        }
-        .reset-surprise:hover {
-            background: #ffb0cc;
-        }
-    </style>
+  .modal-text::before { content: "🌷 "; }
+  .modal-text::after  { content: " 🌷"; }
+</style>
 </head>
 <body>
-    <!-- КОНТЕЙНЕР ДЛЯ ПАДАЮЩИХ ЦВЕТОВ -->
-    <div class="flower-container" id="flowerContainer"></div>
 
-    <!-- ХОЛСТ ДЛЯ ФЕЙЕРВЕРКА ИЗ СЕРДЕЧЕК (ПОВЕРХ ВСЕГО) -->
-    <canvas id="heart-fireworks-canvas"></canvas>
+<h1>✨ Поздравления для наших учителей ✨</h1>
+<p class="subtitle">Нажмите на карточку учителя, чтобы увидеть поздравление</p>
 
-    <div class="container">
-        <!-- ШАПКА -->
-        <div class="holiday-header">
-            <h1>🌸 8 Марта 🌸</h1>
-            <p>🌺 Международный женский день изначально был днём борьбы за права женщин. Сегодня это праздник всех женщин, девушек и девочек, символ нежности, красоты и весеннего обновления. В этот день принято дарить цветы, улыбки и тёплые пожелания.</p>
-            <div class="wishes">
-               <span>🌷✨</span> Дорогие, прекрасные, удивительные!<br><br> Поздравляю вас с праздником 8 Марта! Этот день — символ пробуждения природы, нежности и той невероятной силы, которую вы дарите миру.<br><br> Пусть в вашей душе всегда цветет весна, независимо от погоды за окном. Маленьким принцессам желаем чудесных открытий, юным леди — ярких мечтаний и любви, а мудрым и прекрасным женщинам — гармонии, здоровья и тепла в доме.<br><br> Будьте счастливы, сияйте улыбками и знайте, что ваша доброта и красота делают этот мир по-настоящему живым. С праздником! <span>✨🌹</span>
-            <div style="font-size:1.8rem; margin-top:15px;">💐 🐈 🌺 🐾 🌼</div>
-        </div>
+<div class="teachers-grid" id="teachersGrid"></div>
 
-        <!-- ВИКТОРИНА 30 вопросов -->
-        <div class="quiz-section">
-            <div class="quiz-title">🌹 Весенняя викторина (30 вопросов)</div>
-            <div class="progress">
-                <div class="progress-bar" id="quizProgressBar" style="width:0%;"></div>
-            </div>
-            <div id="questionContainer">
-                <div class="question-text" id="questionText">Загрузка вопроса...</div>
-                <div class="answers-grid" id="answersContainer"></div>
-            </div>
-            <div class="quiz-footer">
-                <span class="counter-info" id="questionCounter">1 / 30</span>
-                <button class="next-btn" id="nextBtn" disabled>▶ Дальше</button>
-            </div>
-            <div id="quizResultMessage" class="result-message"></div>
-        </div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modalPhotoWrap"></div>
+    <h2 class="modal-name" id="modalName"></h2>
+    <p class="modal-subject" id="modalSubject"></p>
+    <p class="modal-text" id="modalText"></p>
+  </div>
+</div>
 
-        <!-- КЛИКЕР сердечко + сюрприз -->
-        <div class="clicker-section">
-            <div class="clicker-title">💗 Сердечный кликер 💗</div>
-            <button class="heart-btn" id="heartClicker">❤️</button>
-            <div class="click-counter" id="clickCounterDisplay">0 / 100</div>
-            
-            <!-- Блок сюрприза (всегда показывает "жди чуда") -->
-            <div class="surprise-box" id="surpriseBox">✨ жди чуда ✨</div>
-            
-            <!-- Кнопка на отдельной строке -->
-            <div>
-                <button class="reset-surprise" id="resetSurpriseBtn">🌸 Сбросить сюрприз 🌸</button>
-            </div>
-        </div>
-    </div>
+<script>
+  // ============ СПИСОК УЧИТЕЛЕЙ (в алфавитном порядке по фамилии) ============
+  const teachers = [
+    {
+      name: "Белоногова Мария Валерьевна",
+      subject: "Заместитель директора по ВР",
+      photo: "",
+      greeting: "Уважаемая Мария Валерьевна! Спасибо за вашу неустанную заботу о воспитательной жизни школы. Вы умеете организовать, вдохновить и поддержать — и учеников, и коллег. Пусть ваша энергия никогда не иссякает, а каждый день приносит радость от любимого дела!"
+    },
+    {
+      name: "Геращенко Елена Александровна",
+      subject: "Учитель информатики",
+      photo: "",
+      greeting: "Дорогая Елена Александровна! Вы открыли для нас мир цифровых технологий и научили уверенно чувствовать себя за компьютером. Спасибо за ваш современный подход и терпение. Пусть ваши программы всегда работают без ошибок!"
+    },
+    {
+      name: "Годунова Алевтина Юрьевна",
+      subject: "Учитель физики",
+      photo: "",
+      greeting: "Дорогая Алевтина Юрьевна! Физика с вами — это не скучные формулы, а удивительный мир открытий. Спасибо за вашу увлечённость и умение объяснить сложное просто. Пусть законы физики всегда будут на вашей стороне!"
+    },
+    {
+      name: "Гузаревич Александр Анатольевич",
+      subject: "Учитель ИЗО, труда и черчения",
+      photo: "",
+      greeting: "Уважаемый Александр Анатольевич! Спасибо за ваши уроки, на которых рождается красота и оживают чертежи. Вы научили нас видеть гармонию в линиях, творить своими руками и мыслить как настоящие инженеры и художники. Пусть ваше вдохновение никогда не иссякает!"
+    },
+    {
+      name: "Дорогобед Ирина Александровна",
+      subject: "Учитель начальных классов",
+      photo: "",
+      greeting: "Дорогая Ирина Александровна! Вы — первый учитель, который открыл для нас дорогу в мир знаний. Спасибо за вашу доброту, терпение и ласку, за то, что каждый день вы дарите детям тепло и уверенность в себе. Пусть ваши ученики всегда радуют вас своими успехами!"
+    },
+    {
+      name: "Зайкина Виктория Валерьевна",
+      subject: "Учитель музыки",
+      photo: "",
+      greeting: "Дорогая Виктория Валерьевна! Спасибо за волшебство музыки, которое вы дарите нам на каждом уроке. Вы научили нас слышать прекрасное и чувствовать гармонию. Пусть ваша жизнь звучит как самая красивая мелодия!"
+    },
+    {
+      name: "Лебедева Марина Игоревна",
+      subject: "Заместитель директора по УВР",
+      photo: "",
+      greeting: "Уважаемая Марина Игоревна! Спасибо за вашу мудрость, терпение и огромный труд на посту заместителя директора. Вы направляете и поддерживаете нас в учебном процессе, помогаете расти и добиваться успехов. Пусть ваша работа приносит радость и заслуженное признание!"
+    },
+    {
+      name: "Малышева Наталья Борисовна",
+      subject: "Учитель физической культуры",
+      photo: "",
+      greeting: "Дорогая Наталья Борисовна! Каждый ваш урок — это заряд бодрости, азарта и хорошего настроения. Вы показали нам, что спорт — это не только сила и выносливость, но и характер, дружба и умение не сдаваться. Спасибо за ваше терпение и веру в каждого из нас. Оставайтесь всегда такой же энергичной и жизнерадостной!"
+    },
+    {
+      name: "Митрофанский Василий Степанович",
+      subject: "Учитель ОБЗР",
+      photo: "",
+      greeting: "Уважаемый Василий Степанович! Спасибо за ваши уроки мужества, ответственности и безопасности. Вы научили нас главному — беречь себя и помогать другим. Крепкого вам здоровья и мирного неба над головой!"
+    },
+    {
+      name: "Пантелеева Нелли Викторовна",
+      subject: "Учитель химии и биологии",
+      photo: "",
+      greeting: "Уважаемая Нелли Викторовна! Благодаря вам мир химии и биологии стал для нас живым и увлекательным. Ваши опыты и рассказы о природе открыли нам удивительное рядом. Спасибо за вашу мудрость и терпение!"
+    },
+    {
+      name: "Петрова Наталья Петровна",
+      subject: "Учитель географии",
+      photo: "",
+      greeting: "Дорогая Наталья Петровна! Благодаря вам мы путешествуем по миру, не выходя из класса. Спасибо за ваши рассказы о далёких странах, морях и горах. Желаем вам самим объехать весь мир и увидеть всё своими глазами!"
+    },
+    {
+      name: "Полкова Светлана Ивановна",
+      subject: "Учитель геометрии, алгебры, вероятности и статистики",
+      photo: "",
+      greeting: "Уважаемая Светлана Ивановна! Спасибо за ваши уроки, где царит логика и точность. Вы научили нас думать, рассуждать и не бояться сложных задач. Пусть в вашей жизни всё складывается так же красиво, как теоремы на доске!"
+    },
+    {
+      name: "Пучкова Наталья Викторовна",
+      subject: "Учитель технологии",
+      photo: "",
+      greeting: "Дорогая Наталья Викторовна! На ваших уроках мы научились создавать красоту своими руками. Спасибо за ваше мастерство, терпение и умение вдохновить на творчество. Пусть ваши идеи всегда находят воплощение!"
+    },
+    {
+      name: "Седышева Наталия Александровна",
+      subject: "Учитель английского языка и классный руководитель",
+      photo: "",
+      greeting: "Уважаемая Наталия Александровна! Thank you за ваши уроки, за каждый новый язык, который открывает перед нами мир. Как классный руководитель вы стали для нас второй мамой — заботливой, понимающей и справедливой. Спасибо за всё!"
+    },
+    {
+      name: "Сержанская Александра Николаевна",
+      subject: "Заместитель директора по ВР",
+      photo: "",
+      greeting: "Уважаемая Александра Николаевна! Спасибо за ваше творческое вдохновение и умение превратить школьную жизнь в настоящий праздник. Каждое мероприятие, подготовленное вами, — это маленький спектакль, который запоминается надолго. Пусть ваши идеи никогда не заканчиваются, а аплодисменты звучат чаще!"
+    },
+    {
+      name: "Сильнова Людмила Викторовна",
+      subject: "Заместитель директора по УВР, наставник по проектам",
+      photo: "",
+      greeting: "Уважаемая Людмила Викторовна! Спасибо за ваше мудрое руководство и помощь в наших проектах. Вы направляете нас, вдохновляете на новые идеи и всегда готовы поддержать. Пусть ваши собственные проекты всегда завершаются блестящим успехом!"
+    },
+    {
+      name: "Уголева Наталья Геннадьевна",
+      subject: "Учитель истории и обществознания",
+      photo: "",
+      greeting: "Уважаемая Наталья Геннадьевна! Вы открыли для нас страницы истории и научили понимать общество, в котором мы живём. Спасибо за ваши живые уроки и мудрые наставления. Пусть ваша история будет долгой и счастливой!"
+    },
+    {
+      name: "Фомина Людмила Анатольевна",
+      subject: "Учитель русского языка и литературы",
+      photo: "",
+      greeting: "Дорогая Людмила Анатольевна! Вы научили нас любить родное слово и понимать великие книги. Спасибо за ваше терпение, чуткость и умение разглядеть в каждом ученике талант. Пусть ваше слово всегда отзывается в сердцах!"
+    }
+  ];
 
-    <script>
-        (function() {
-            // ------------- 30 вопросов -------------
-            const questions = [
-                { q: "Когда отмечают Международный женский день?", options: ["8 марта", "1 марта", "7 марта", "9 марта"], correct: 0 },
-                { q: "Какой цветок традиционно дарят на 8 марта в России?", options: ["Розы", "Тюльпаны", "Ромашки", "Кактусы"], correct: 1 },
-                { q: "В каком году впервые отпраздновали 8 марта?", options: ["1910", "1911", "1921", "1899"], correct: 1 },
-                { q: "Кто предложил учредить Международный женский день?", options: ["Клара Цеткин", "Надежда Крупская", "Роза Люксембург", "Александра Коллонтай"], correct: 0 },
-                { q: "Какой камень считается женским талисманом весны?", options: ["Изумруд", "Бирюза", "Аметист", "Жемчуг"], correct: 0 },
-                { q: "Какое растение не дарят на 8 марта?", options: ["Мимоза", "Тюльпан", "Гиацинт", "Опята"], correct: 3 },
-                { q: "Символ 8 марта в СССР в 70-80-е?", options: ["Мимоза и веточки", "Гвоздика", "Роза", "Ландыш"], correct: 0 },
-                { q: "Сколько стран официально отмечают 8 марта?", options: ["Около 30", "Более 50", "Меньше 10", "Ровно 15"], correct: 0 },
-                { q: "Весенний месяц, в который празднуют Женский день?", options: ["Март", "Апрель", "Февраль", "Май"], correct: 0 },
-                { q: "Какой праздник был до 8 марта в Древнем Риме?", options: ["Матроналии", "Сатурналии", "Луперкалии", "Вакханалии"], correct: 0 },
-                { q: "Кто из композиторов написал балет 'Весна священная'?", options: ["Чайковский", "Стравинский", "Прокофьев", "Рахманинов"], correct: 1 },
-                { q: "Какая актриса стала символом женственности в XX веке?", options: ["Мэрилин Монро", "Одри Хепбёрн", "Софи Лорен", "Вивьен Ли"], correct: 1 },
-                { q: "Как называют женщину-весну в русских сказках?", options: ["Весна-Красна", "Марья-искусница", "Снегурочка", "Царевна-лягушка"], correct: 0 },
-                { q: "Что дарят в Японии девочкам 3 марта (Хинамацури)?", options: ["Куклы", "Ирисы", "Рис", "Сакуру"], correct: 0 },
-                { q: "В какой стране 8 марта — государственный выходной?", options: ["Россия", "США", "Франция", "Германия"], correct: 0 },
-                { q: "Какая певица исполнила песню 'Лучшие цветы'?", options: ["Валерия", "Алсу", "Кристина Орбакайте", "Ирина Аллегрова"], correct: 3 },
-                { q: "Какого цвета не бывает у тюльпанов?", options: ["Синий", "Жёлтый", "Красный", "Белый"], correct: 0 },
-                { q: "Какой цветок называют 'слезой богини'?", options: ["Ландыш", "Лилия", "Ромашка", "Орхидея"], correct: 0 },
-                { q: "Какое дерево весной цветёт пушистыми серёжками?", options: ["Верба", "Дуб", "Клён", "Сосна"], correct: 0 },
-                { q: "Как звали первую женщину-космонавта?", options: ["Валентина Терешкова", "Светлана Савицкая", "Елена Кондакова", "Пегги Уитсон"], correct: 0 },
-                { q: "Какой напиток часто пьют за женское здоровье?", options: ["Красное вино", "Шампанское", "Зелёный чай", "Молоко"], correct: 1 },
-                { q: "Как звали богиню весны у славян?", options: ["Леля", "Марена", "Жива", "Весна"], correct: 0 },
-                { q: "Что означает мимоза в подарок?", options: ["Застенчивость и чувствительность", "Страсть", "Верность", "Богатство"], correct: 0 },
-                { q: "В каком фильме звучит 'Весна на Заречной улице'?", options: ["Весна на Заречной улице", "Карнавальная ночь", "Девчата", "Свинарка и пастух"], correct: 0 },
-                { q: "Кто написал 'Вальс цветов' из балета 'Щелкунчик'?", options: ["Чайковский", "Шопен", "Бах", "Моцарт"], correct: 0 },
-                { q: "Какой праздник отмечают через месяц после 8 марта?", options: ["Пасха", "Новый год", "День космонавтики", "День смеха"], correct: 3 },
-                { q: "Название тюльпана с бахромой?", options: ["Бахромчатые", "Пионовидные", "Лилиецветные", "Попугайные"], correct: 3 },
-                { q: "Кто написал картину 'Весна'?", options: ["Боттичелли", "Рафаэль", "Микеланджело", "Леонардо"], correct: 0 },
-                { q: "Какого цветка не существует в природе?", options: ["Фиолетовая роза", "Зелёная роза", "Чёрная роза", "Голубая роза"], correct: 3 },
-                { q: "Что весной приносят аисты?", options: ["Детей", "Цветы", "Письма", "Весну"], correct: 0 }
-            ];
-            while(questions.length < 30) questions.push({...questions[questions.length-1]});
-            if (questions.length > 30) questions.length = 30;
+  const grid = document.getElementById('teachersGrid');
+  const modal = document.getElementById('modal');
+  const modalPhotoWrap = document.getElementById('modalPhotoWrap');
+  const modalName = document.getElementById('modalName');
+  const modalSubject = document.getElementById('modalSubject');
+  const modalText = document.getElementById('modalText');
 
-            // ---------- ВИКТОРИНА ----------
-            let currentQuestionIndex = 0;
-            let score = 0;
-            let userAnswers = new Array(questions.length).fill(null);
+  function getInitials(name) {
+    return name.split(' ').slice(0, 2).map(w => w[0]).join('');
+  }
 
-            const questionTextEl = document.getElementById('questionText');
-            const answersContainer = document.getElementById('answersContainer');
-            const nextBtn = document.getElementById('nextBtn');
-            const questionCounterEl = document.getElementById('questionCounter');
-            const progressBar = document.getElementById('quizProgressBar');
-            const quizResultMessage = document.getElementById('quizResultMessage');
+  // Рендер карточек
+  teachers.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'teacher-card';
+    card.style.animationDelay = (i * 0.06) + 's';
+    card.onclick = () => openModal(i);
 
-            function renderQuestion() {
-                const q = questions[currentQuestionIndex];
-                questionTextEl.textContent = q.q;
-                const selectedIdx = userAnswers[currentQuestionIndex];
-                answersContainer.innerHTML = '';
-                q.options.forEach((opt, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'answer-btn';
-                    btn.textContent = `${String.fromCharCode(65+idx)}. ${opt}`;
-                    if (selectedIdx !== null) {
-                        if (idx === q.correct) btn.classList.add('selected-correct');
-                        else if (idx === selectedIdx && selectedIdx !== q.correct) btn.classList.add('selected-wrong');
-                        btn.disabled = true;
-                    } else {
-                        btn.addEventListener('click', () => handleAnswer(idx));
-                    }
-                    answersContainer.appendChild(btn);
-                });
+    const photoHTML = t.photo
+      ? `<img class="teacher-photo" src="${t.photo}" alt="${t.name}">`
+      : `<div class="teacher-photo placeholder">${getInitials(t.name)}</div>`;
 
-                const answeredCount = userAnswers.filter(a => a !== null).length;
-                progressBar.style.width = `${(answeredCount / questions.length) * 100}%`;
-                questionCounterEl.textContent = `${currentQuestionIndex+1} / ${questions.length}`;
-                nextBtn.disabled = (userAnswers[currentQuestionIndex] === null);
-                if (answeredCount === questions.length) {
-                    nextBtn.disabled = false;
-                    nextBtn.textContent = (currentQuestionIndex === questions.length-1) ? '🏁 Показать результат' : '▶ Дальше';
-                } else {
-                    nextBtn.textContent = '▶ Дальше';
-                }
-            }
+    card.innerHTML = `
+      ${photoHTML}
+      <div class="teacher-name">${t.name}</div>
+      <div class="teacher-subject">${t.subject}</div>
+    `;
+    grid.appendChild(card);
+  });
 
-            function handleAnswer(selectedIndex) {
-                if (userAnswers[currentQuestionIndex] !== null) return;
-                const q = questions[currentQuestionIndex];
-                userAnswers[currentQuestionIndex] = selectedIndex;
-                if (selectedIndex === q.correct) score++;
-                renderQuestion();
-                nextBtn.disabled = false;
-            }
+  function openModal(index) {
+    const t = teachers[index];
 
-            function getCongratulationMessage(score, total) {
-                const percentage = (score / total) * 100;
-                
-                if (percentage === 100) {
-                    return "💯🌺 ВОСХИТИТЕЛЬНО! 30 из 30! Вы настоящий знаток весенних традиций! Пусть ваши знания так же ярко сияют, как солнце в этот прекрасный день! 💐✨";
-                } else if (score >= 27) {
-                    return "🏆🌟 БЛИСТАТЕЛЬНО! " + score + " правильных ответов! Ваша эрудиция достойна самых красивых комплиментов! С 8 марта! 🌷💫";
-                } else if (score >= 24) {
-                    return "🎉💮 ПРЕКРАСНЫЙ РЕЗУЛЬТАТ! " + score + " из 30! Вы словно весенний букет — яркая и неповторимая! Продолжайте в том же духе! 🌸🌼";
-                } else if (score >= 20) {
-                    return "🌹🌿 ОЧЕНЬ ХОРОШО! " + score + " правильных ответов! Вы порадовали нас своей эрудицией, как первые цветы радуют глаз! С праздником! 🎀✨";
-                } else if (score >= 15) {
-                    return "🌱💗 ХОРОШИЙ РЕЗУЛЬТАТ! " + score + " из 30! Как весна, вы только начинаете раскрываться! Желаем вам новых открытий и знаний! 🌷📚";
-                } else if (score >= 10) {
-                    return "🌼🍃 НЕПЛОХО! " + score + " правильных ответов! Весна только начинается, и впереди много интересного! Главное — ваше очарование! 💖🌸";
-                } else if (score >= 5) {
-                    return "🌱💕 " + score + " ИЗ 30! Как первые листочки, ваши знания будут расти с каждым днём! С праздником весны, нежности и красоты! 🦋🌺";
-                } else {
-                    return "🍃🌷 " + score + " правильных ответов. Но главное не количество баллов, а ваша улыбка! Она дороже всех цветов мира! С 8 марта! 💐😊💗";
-                }
-            }
+    if (t.photo) {
+      modalPhotoWrap.innerHTML = `<img class="modal-photo" src="${t.photo}" alt="${t.name}">`;
+    } else {
+      modalPhotoWrap.innerHTML = `<div class="modal-photo placeholder">${getInitials(t.name)}</div>`;
+    }
 
-            function nextQuestion() {
-                if (nextBtn.disabled) return;
-                const allAnswered = userAnswers.every(a => a !== null);
-                if (allAnswered && currentQuestionIndex === questions.length-1) {
-                    const message = getCongratulationMessage(score, questions.length);
-                    quizResultMessage.innerHTML = message;
-                    nextBtn.disabled = true;
-                    
-                    // Запускаем дополнительный фейерверк в честь завершения викторины
-                    for (let i = 0; i < 5; i++) {
-                        setTimeout(() => createFirework(), i * 200);
-                    }
-                    return;
-                }
-                if (currentQuestionIndex < questions.length-1) {
-                    currentQuestionIndex++;
-                    renderQuestion();
-                }
-            }
-            nextBtn.addEventListener('click', nextQuestion);
-            renderQuestion();
+    modalName.textContent = t.name;
+    modalSubject.textContent = t.subject;
+    modalText.textContent = t.greeting;
+    modal.classList.add('active');
+  }
 
-            // ---------- ПАДАЮЩИЕ ЦВЕТЫ (фон) ----------
-            const flowerContainer = document.getElementById('flowerContainer');
-            const flowersList = ['🌸','🌼','🌺','🌷','🌹','🌻','🌿','🌸','🌼','🌷']; 
-            function createFlower() {
-                const flower = document.createElement('div');
-                flower.className = 'flower';
-                flower.textContent = flowersList[Math.floor(Math.random() * flowersList.length)];
-                const size = 1.2 + Math.random() * 1.5;
-                flower.style.fontSize = size + 'rem';
-                flower.style.left = Math.random() * 100 + '%';
-                flower.style.animationDuration = 6 + Math.random() * 12 + 's';
-                flower.style.animationDelay = Math.random() * -20 + 's';
-                flowerContainer.appendChild(flower);
+  function closeModal() {
+    modal.classList.remove('active');
+  }
 
-                if (flowerContainer.children.length > 120) {
-                    flowerContainer.removeChild(flowerContainer.children[0]);
-                }
-            }
-            for (let i = 0; i < 40; i++) createFlower();
-            setInterval(createFlower, 2000);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
 
-            // ---------- ФЕЙЕРВЕРК ИЗ СЕРДЕЧЕК (на canvas) ----------
-            const canvas = document.getElementById('heart-fireworks-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let animationFrame = null;
-            let fireworksActive = false;
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            // Разные сердечки для фейерверка
-            const heartEmojis = ['💛', '💚', '💙', '💜', '💖', '💗', '💓', '💕', '❤️‍🔥', '💘', '💝'];
-
-            function createFirework() {
-                const count = 15 + Math.floor(Math.random() * 15);
-                const baseX = Math.random() * canvas.width;
-                const baseY = Math.random() * canvas.height * 0.6 + 80;
-                
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * 2 * Math.PI;
-                    const speed = 2 + Math.random() * 5;
-                    const vx = Math.cos(angle) * speed;
-                    const vy = Math.sin(angle) * speed - 1.2;
-                    
-                    particles.push({
-                        x: baseX,
-                        y: baseY,
-                        vx: vx,
-                        vy: vy,
-                        life: 0.9 + Math.random() * 0.5,
-                        emoji: heartEmojis[Math.floor(Math.random() * heartEmojis.length)],
-                        size: 16 + Math.random() * 16
-                    });
-                }
-            }
-
-            function drawFireworks() {
-                if (!fireworksActive && particles.length === 0) {
-                    if (animationFrame) {
-                        cancelAnimationFrame(animationFrame);
-                        animationFrame = null;
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    }
-                    return;
-                }
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    const p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.05;
-                    p.life -= 0.006;
-                    
-                    if (p.life <= 0.02 || p.y > canvas.height + 50) {
-                        particles.splice(i, 1);
-                        continue;
-                    }
-                    
-                    ctx.save();
-                    ctx.globalAlpha = p.life * 0.9;
-                    ctx.font = `${p.size * p.life}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillStyle = '#000';
-                    ctx.fillText(p.emoji, p.x, p.y);
-                    ctx.restore();
-                }
-                
-                if (fireworksActive) {
-                    if (Math.random() < 0.2) createFirework();
-                }
-                
-                animationFrame = requestAnimationFrame(drawFireworks);
-            }
-
-            function startFireworks() {
-                fireworksActive = true;
-                if (!animationFrame) {
-                    drawFireworks();
-                }
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => createFirework(), i * 150);
-                }
-            }
-
-            function stopFireworks() {
-                fireworksActive = false;
-            }
-
-            // ---------- КЛИКЕР С СЮРПРИЗОМ (НАДПИСЬ НЕ МЕНЯЕТСЯ) ----------
-            const heartBtn = document.getElementById('heartClicker');
-            const clickCounterDisplay = document.getElementById('clickCounterDisplay');
-            const surpriseBox = document.getElementById('surpriseBox');
-            const resetSurpriseBtn = document.getElementById('resetSurpriseBtn');
-
-            let clickCount = 0;
-            const maxClicks = 100;
-            let fireworksTriggered = false;
-
-            function updateClicker() {
-                clickCounterDisplay.textContent = `${clickCount} / ${maxClicks}`;
-                
-                // НАДПИСЬ НИКОГДА НЕ МЕНЯЕТСЯ!
-                surpriseBox.innerHTML = '✨ жди чуда ✨';
-                
-                if (clickCount >= maxClicks && !fireworksTriggered) {
-                    fireworksTriggered = true;
-                    startFireworks();
-                }
-            }
-
-            heartBtn.addEventListener('click', function() {
-                if (clickCount < maxClicks) {
-                    clickCount++;
-                    updateClicker();
-                }
-                
-                if (clickCount >= maxClicks) {
-                    createFirework(); // сердечковая вспышка при каждом клике после 100
-                }
-            });
-
-            resetSurpriseBtn.addEventListener('click', function() {
-                clickCount = 0;
-                fireworksTriggered = false;
-                stopFireworks();
-                particles = [];
-                updateClicker();
-                if (animationFrame) {
-                    cancelAnimationFrame(animationFrame);
-                    animationFrame = null;
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
-            });
-
-            updateClicker();
-        })();
-    </script>
 </body>
 </html>
