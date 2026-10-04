@@ -1,390 +1,110 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Поздравления учителям</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Georgia', serif;
-    min-height: 100vh;
-    padding: 40px 20px;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                url('photos/background.jpg') no-repeat center center fixed;
-    background-size: cover;
-  }
-
-  h1 {
-    text-align: center;
-    color: #fff;
-    font-size: 2.3em;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-  }
-
-  .subtitle {
-    text-align: center;
-    color: #f0e6ff;
-    font-size: 1.05em;
-    margin-bottom: 40px;
-    font-style: italic;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-  }
-
-  .teachers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .teacher-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 22px 18px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    animation: cardIn 0.5s ease backwards;
-  }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .teacher-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 32px rgba(0,0,0,0.28);
-  }
-
-  .teacher-photo {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 15px;
-    display: block;
-    border: 4px solid #764ba2;
-    background: #f3effa;
-  }
-
-  .teacher-photo.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.3em;
-    color: #764ba2;
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-
-  .teacher-name {
-    font-size: 1.02em;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-
-  .teacher-subject {
-    font-size: 0.88em;
-    color: #888;
-    font-style: italic;
-    line-height: 1.3;
-  }
-
-  /* ===== Модальное окно — фон остаётся светлым ===== */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    animation: fadeIn 0.3s;
-  }
-
-  .modal-overlay.active { display: flex; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  .modal {
-    background: linear-gradient(135deg, #fff 0%, #f5f0ff 100%);
-    border-radius: 20px;
-    padding: 40px 35px 35px;
-    max-width: 560px;
-    width: 100%;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    animation: slideUp 0.4s;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: #999;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.2s, transform 0.2s;
-  }
-
-  .modal-close:hover { color: #764ba2; transform: rotate(90deg); }
-
-  .modal-photo {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto 18px;
-    border: 4px solid #764ba2;
-  }
-
-  .modal-photo.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2em;
-    color: #764ba2;
-    font-weight: bold;
-    background: #f3effa;
-  }
-
-  .modal-name {
-    text-align: center;
-    font-size: 1.3em;
-    color: #333;
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-
-  .modal-subject {
-    text-align: center;
-    color: #764ba2;
-    font-style: italic;
-    margin-bottom: 22px;
-    font-size: 0.95em;
-  }
-
-  .modal-text {
-    font-size: 1.05em;
-    line-height: 1.7;
-    color: #444;
-    text-align: center;
-  }
-
-  .modal-text::before { content: "🌷 "; }
-  .modal-text::after  { content: " 🌷"; }
-</style>
-</head>
-<body>
-
-<h1>✨ Поздравления для наших учителей ✨</h1>
-<p class="subtitle">Нажмите на карточку учителя, чтобы увидеть поздравление</p>
-
-<div class="teachers-grid" id="teachersGrid"></div>
-
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div id="modalPhotoWrap"></div>
-    <h2 class="modal-name" id="modalName"></h2>
-    <p class="modal-subject" id="modalSubject"></p>
-    <p class="modal-text" id="modalText"></p>
-  </div>
-</div>
-
-<script>
-  // ============ СПИСОК УЧИТЕЛЕЙ (в алфавитном порядке по фамилии) ============
   const teachers = [
     {
       name: "Белоногова Мария Валерьевна",
       subject: "Заместитель директора по ВР",
-      photo: "",
+      photo: "photos/belonogova.jpg",
       greeting: "Уважаемая Мария Валерьевна! Спасибо за вашу неустанную заботу о воспитательной жизни школы. Вы умеете организовать, вдохновить и поддержать — и учеников, и коллег. Пусть ваша энергия никогда не иссякает, а каждый день приносит радость от любимого дела!"
     },
     {
       name: "Геращенко Елена Александровна",
       subject: "Учитель информатики",
-      photo: "",
+      photo: "photos/gerashchenko.jpg",
       greeting: "Дорогая Елена Александровна! Вы открыли для нас мир цифровых технологий и научили уверенно чувствовать себя за компьютером. Спасибо за ваш современный подход и терпение. Пусть ваши программы всегда работают без ошибок!"
     },
     {
       name: "Годунова Алевтина Юрьевна",
       subject: "Учитель физики",
-      photo: "",
+      photo: "photos/godunova.jpg",
       greeting: "Дорогая Алевтина Юрьевна! Физика с вами — это не скучные формулы, а удивительный мир открытий. Спасибо за вашу увлечённость и умение объяснить сложное просто. Пусть законы физики всегда будут на вашей стороне!"
     },
     {
       name: "Гузаревич Александр Анатольевич",
       subject: "Учитель ИЗО, труда и черчения",
-      photo: "",
+      photo: "photos/guzarevich.jpg",
       greeting: "Уважаемый Александр Анатольевич! Спасибо за ваши уроки, на которых рождается красота и оживают чертежи. Вы научили нас видеть гармонию в линиях, творить своими руками и мыслить как настоящие инженеры и художники. Пусть ваше вдохновение никогда не иссякает!"
     },
     {
       name: "Дорогобед Ирина Александровна",
       subject: "Учитель начальных классов",
-      photo: "",
+      photo: "photos/dorogobed.jpg",
       greeting: "Дорогая Ирина Александровна! Вы — первый учитель, который открыл для нас дорогу в мир знаний. Спасибо за вашу доброту, терпение и ласку, за то, что каждый день вы дарите детям тепло и уверенность в себе. Пусть ваши ученики всегда радуют вас своими успехами!"
     },
     {
       name: "Зайкина Виктория Валерьевна",
       subject: "Учитель музыки",
-      photo: "",
+      photo: "photos/zaykina.jpg",
       greeting: "Дорогая Виктория Валерьевна! Спасибо за волшебство музыки, которое вы дарите нам на каждом уроке. Вы научили нас слышать прекрасное и чувствовать гармонию. Пусть ваша жизнь звучит как самая красивая мелодия!"
     },
     {
       name: "Лебедева Марина Игоревна",
       subject: "Заместитель директора по УВР",
-      photo: "",
+      photo: "photos/lebedeva.jpg",
       greeting: "Уважаемая Марина Игоревна! Спасибо за вашу мудрость, терпение и огромный труд на посту заместителя директора. Вы направляете и поддерживаете нас в учебном процессе, помогаете расти и добиваться успехов. Пусть ваша работа приносит радость и заслуженное признание!"
     },
     {
       name: "Малышева Наталья Борисовна",
       subject: "Учитель физической культуры",
-      photo: "",
+      photo: "photos/malysheva.jpg",
       greeting: "Дорогая Наталья Борисовна! Каждый ваш урок — это заряд бодрости, азарта и хорошего настроения. Вы показали нам, что спорт — это не только сила и выносливость, но и характер, дружба и умение не сдаваться. Спасибо за ваше терпение и веру в каждого из нас. Оставайтесь всегда такой же энергичной и жизнерадостной!"
     },
     {
       name: "Митрофанский Василий Степанович",
       subject: "Учитель ОБЗР",
-      photo: "",
+      photo: "photos/mitrofanckiy.jpg",
       greeting: "Уважаемый Василий Степанович! Спасибо за ваши уроки мужества, ответственности и безопасности. Вы научили нас главному — беречь себя и помогать другим. Крепкого вам здоровья и мирного неба над головой!"
     },
     {
       name: "Пантелеева Нелли Викторовна",
       subject: "Учитель химии и биологии",
-      photo: "",
+      photo: "photos/panteleeva.jpg",
       greeting: "Уважаемая Нелли Викторовна! Благодаря вам мир химии и биологии стал для нас живым и увлекательным. Ваши опыты и рассказы о природе открыли нам удивительное рядом. Спасибо за вашу мудрость и терпение!"
     },
     {
       name: "Петрова Наталья Петровна",
       subject: "Учитель географии",
-      photo: "",
+      photo: "photos/petrova.jpg",
       greeting: "Дорогая Наталья Петровна! Благодаря вам мы путешествуем по миру, не выходя из класса. Спасибо за ваши рассказы о далёких странах, морях и горах. Желаем вам самим объехать весь мир и увидеть всё своими глазами!"
     },
     {
       name: "Полкова Светлана Ивановна",
       subject: "Учитель геометрии, алгебры, вероятности и статистики",
-      photo: "",
+      photo: "photos/polkova.jpg",
       greeting: "Уважаемая Светлана Ивановна! Спасибо за ваши уроки, где царит логика и точность. Вы научили нас думать, рассуждать и не бояться сложных задач. Пусть в вашей жизни всё складывается так же красиво, как теоремы на доске!"
     },
     {
       name: "Пучкова Наталья Викторовна",
       subject: "Учитель технологии",
-      photo: "",
+      photo: "photos/puchkova.jpg",
       greeting: "Дорогая Наталья Викторовна! На ваших уроках мы научились создавать красоту своими руками. Спасибо за ваше мастерство, терпение и умение вдохновить на творчество. Пусть ваши идеи всегда находят воплощение!"
     },
     {
       name: "Седышева Наталия Александровна",
       subject: "Учитель английского языка и классный руководитель",
-      photo: "",
+      photo: "photos/sedysheva.jpg",
       greeting: "Уважаемая Наталия Александровна! Thank you за ваши уроки, за каждый новый язык, который открывает перед нами мир. Как классный руководитель вы стали для нас второй мамой — заботливой, понимающей и справедливой. Спасибо за всё!"
     },
     {
       name: "Сержанская Александра Николаевна",
       subject: "Заместитель директора по ВР",
-      photo: "",
+      photo: "photos/serzhanskaya.jpg",
       greeting: "Уважаемая Александра Николаевна! Спасибо за ваше творческое вдохновение и умение превратить школьную жизнь в настоящий праздник. Каждое мероприятие, подготовленное вами, — это маленький спектакль, который запоминается надолго. Пусть ваши идеи никогда не заканчиваются, а аплодисменты звучат чаще!"
     },
     {
       name: "Сильнова Людмила Викторовна",
       subject: "Заместитель директора по УВР, наставник по проектам",
-      photo: "",
+      photo: "photos/silnova.jpg",
       greeting: "Уважаемая Людмила Викторовна! Спасибо за ваше мудрое руководство и помощь в наших проектах. Вы направляете нас, вдохновляете на новые идеи и всегда готовы поддержать. Пусть ваши собственные проекты всегда завершаются блестящим успехом!"
     },
     {
       name: "Уголева Наталья Геннадьевна",
       subject: "Учитель истории и обществознания",
-      photo: "",
+      photo: "photos/ugoleva.jpg",
       greeting: "Уважаемая Наталья Геннадьевна! Вы открыли для нас страницы истории и научили понимать общество, в котором мы живём. Спасибо за ваши живые уроки и мудрые наставления. Пусть ваша история будет долгой и счастливой!"
     },
     {
       name: "Фомина Людмила Анатольевна",
       subject: "Учитель русского языка и литературы",
-      photo: "",
+      photo: "photos/fomina.jpg",
       greeting: "Дорогая Людмила Анатольевна! Вы научили нас любить родное слово и понимать великие книги. Спасибо за ваше терпение, чуткость и умение разглядеть в каждом ученике талант. Пусть ваше слово всегда отзывается в сердцах!"
     }
   ];
-
-  const grid = document.getElementById('teachersGrid');
-  const modal = document.getElementById('modal');
-  const modalPhotoWrap = document.getElementById('modalPhotoWrap');
-  const modalName = document.getElementById('modalName');
-  const modalSubject = document.getElementById('modalSubject');
-  const modalText = document.getElementById('modalText');
-
-  function getInitials(name) {
-    return name.split(' ').slice(0, 2).map(w => w[0]).join('');
-  }
-
-  // Рендер карточек
-  teachers.forEach((t, i) => {
-    const card = document.createElement('div');
-    card.className = 'teacher-card';
-    card.style.animationDelay = (i * 0.06) + 's';
-    card.onclick = () => openModal(i);
-
-    const photoHTML = t.photo
-      ? `<img class="teacher-photo" src="${t.photo}" alt="${t.name}">`
-      : `<div class="teacher-photo placeholder">${getInitials(t.name)}</div>`;
-
-    card.innerHTML = `
-      ${photoHTML}
-      <div class="teacher-name">${t.name}</div>
-      <div class="teacher-subject">${t.subject}</div>
-    `;
-    grid.appendChild(card);
-  });
-
-  function openModal(index) {
-    const t = teachers[index];
-
-    if (t.photo) {
-      modalPhotoWrap.innerHTML = `<img class="modal-photo" src="${t.photo}" alt="${t.name}">`;
-    } else {
-      modalPhotoWrap.innerHTML = `<div class="modal-photo placeholder">${getInitials(t.name)}</div>`;
-    }
-
-    modalName.textContent = t.name;
-    modalSubject.textContent = t.subject;
-    modalText.textContent = t.greeting;
-    modal.classList.add('active');
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-  }
-
-  modal.addEventListener('click', e => {
-    if (e.target === modal) closeModal();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-</script>
-
-</body>
-</html>
