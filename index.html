@@ -98,7 +98,6 @@
     line-height: 1.3;
   }
 
-  /* ===== Модальное окно — фон остаётся светлым ===== */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -216,7 +215,6 @@
 </div>
 
 <script>
-  // ============ СПИСОК УЧИТЕЛЕЙ (в алфавитном порядке по фамилии) ============
   const teachers = [
     {
       name: "Белоногова Мария Валерьевна",
@@ -339,7 +337,6 @@
     return name.split(' ').slice(0, 2).map(w => w[0]).join('');
   }
 
-  // Рендер карточек
   teachers.forEach((t, i) => {
     const card = document.createElement('div');
     card.className = 'teacher-card';
